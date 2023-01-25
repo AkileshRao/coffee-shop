@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize")
-const { sequelize } = require("../sequelizeInstance")
+const sequelize = require("../dbInstance")
 
 const User = sequelize.define("user", {
     id: {
@@ -21,6 +21,10 @@ const User = sequelize.define("user", {
             arg: true,
             message: "Email already taken!"
         }
+    },
+    role: {
+        type: DataTypes.ENUM("USER", "ADMIN"),
+        defaultValue: "USER"
     },
     password: {
         type: DataTypes.STRING

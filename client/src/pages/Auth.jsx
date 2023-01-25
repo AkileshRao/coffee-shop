@@ -1,12 +1,27 @@
 import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { login } from "../store/authSlice"
+
 const Auth = () => {
+    const navigate = useNavigate()
     const [authState, setAuthState] = useState("login")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPass, setConfirmPass] = useState("")
     const [email, setEmail] = useState("")
+
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        isAuthenticated && navigate("/coffees")
+        console.log("This ran");
+        console.log(isAuthenticated);
+    }, [])
 
     const toggleState = () => {
         authState == "login" ? setAuthState("register") : setAuthState("login")
@@ -27,14 +42,16 @@ const Auth = () => {
             if (!email) throw "Invalid email!"
             if (!username) throw "Invalid username!"
             if (!password) throw "Invalid password!"
-            axios.post(`${process.env.REACT_APP_SERVER || "http://localhost:3001"}/register`, { ...payload, email }).then(res => {
+            axios.post(`${process.env.REACT_APP_SERVER || "http://localhost:3001"}/register`, { ...payload, email, role: "USER" }).then(res => {
                 toggleState("login")
             }).catch(err => console.log(err))
         } else {
             if (!username) throw "Invalid username!"
             if (!password) throw "Invalid password!"
             axios.post(`${process.env.REACT_APP_SERVER || "http://localhost:3001"}/login`, { ...payload }).then(res => {
-                console.log(res);
+                dispatch(login())
+                localStorage.setItem('token', res.data.token)
+                navigate("/coffees")
             }).catch(err => console.log(err))
         }
     }

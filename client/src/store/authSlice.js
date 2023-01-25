@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const authSlice = createSlice({
     name: "auth",
-    initialState: { isAuthenticated: true },
+    initialState: { isAuthenticated: !!localStorage.getItem("token") },
     reducers: {
         login: state => {
             state.isAuthenticated = true
@@ -12,7 +12,8 @@ export const authSlice = createSlice({
             state.isAuthenticated = false
             console.log(state.isAuthenticated)
         }
-    }
+    },
+    extraReducers: {}
 })
 
 export const { login, logout } = authSlice.actions

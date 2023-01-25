@@ -7,12 +7,25 @@ import { store } from './store';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import NotFound from './pages/NotFound';
+import Coffees from "./pages/Coffees"
+import Auth from "./pages/Auth"
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <NotFound />
+    errorElement: <NotFound />,
+    children: [
+      {
+        index: true,
+        element: <Auth />,
+      },
+      {
+        path: "/coffees",
+        element: <Coffees />
+      }
+    ]
   },
 ]);
 

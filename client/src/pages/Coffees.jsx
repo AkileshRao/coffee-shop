@@ -8,8 +8,6 @@ const Coffees = () => {
 
     useEffect(() => {
         !isAuthenticated && navigate("/")
-        console.log("This ran");
-        console.log(isAuthenticated);
     }, [])
 
     return (

@@ -51,7 +51,8 @@ const Auth = () => {
             axios.post(`${process.env.REACT_APP_SERVER || "http://localhost:3001"}/login`, { ...payload }).then(res => {
                 dispatch(login())
                 localStorage.setItem('token', res.data.token)
-                navigate("/coffees")
+                localStorage.setItem('role', res.data.role)
+                res.data.role == "USER" ? navigate("/coffees") : navigate("admin/coffees")
             }).catch(err => console.log(err))
         }
     }

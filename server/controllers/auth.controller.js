@@ -4,10 +4,10 @@ const jwt = require("jsonwebtoken")
 const authConfig = require("../config/auth.config")
 
 exports.login = (req, res) => {
-    const { username, password, role } = req.body;
+    const { username, password } = req.body;
     User.findOne({ where: { username: username } }).then(user => {
-        console.log(user);
         if (user) {
+            console.log(user.dataValues)
             bcrypt.compare(password, user.password).then(isFulfilled => {
                 if (isFulfilled) {
                     const token = jwt.sign({ id: user.id }, authConfig.secret, {
@@ -17,7 +17,7 @@ exports.login = (req, res) => {
                         status: "Success",
                         message: "User successfully logged in!",
                         token,
-                        role
+                        role: user.dataValues.role
                     })
                 } else {
                     res.status(401).send({

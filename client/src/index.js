@@ -9,6 +9,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import NotFound from './pages/NotFound';
 import Coffees from "./pages/Coffees"
 import Auth from "./pages/Auth"
+import AdminCoffees from './pages/AdminCoffees'
 
 
 const router = createBrowserRouter([
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/coffees",
         element: <Coffees />
+      },
+      {
+        path: "/admin/coffees",
+        element: <AdminCoffees />
       }
     ]
   },
